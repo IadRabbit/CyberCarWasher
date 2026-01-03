@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CyberCarWasher</string>
+    <string name="admin_read_info">Read Card Info</string>
+</resources>
