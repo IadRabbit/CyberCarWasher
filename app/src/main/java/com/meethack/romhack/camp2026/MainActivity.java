@@ -24,6 +24,6 @@ public class MainActivity extends AppCompatActivity {
 		});
 		TextView test = findViewById(R.id.textView2);
 		test.setText("puoo");
-//		startActivity(new Intent(this, ReadCard.class));
+		startActivity(new Intent(this, AdminActivity.class));
 	}
 }

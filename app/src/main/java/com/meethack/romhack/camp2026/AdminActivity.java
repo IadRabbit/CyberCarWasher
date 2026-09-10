@@ -87,8 +87,13 @@ public class AdminActivity extends AppCompatActivity {
 					(byte) 0xc1, (byte)0xe5, (byte)0x1c, (byte)0x63, (byte)0xb8, (byte)0xf5
 			};
 
+			testA = new byte[]{
+					(byte) 0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1
+			};
+
 			byte[] testB = new byte[]{
-					(byte) 0xe8, (byte)0x61, (byte)0xfd, (byte)0xe1, (byte)0xb5, (byte)0x9f
+					//(byte) 0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF
+					(byte) 0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1,
 			};
 
 			boolean auth = mifare.authenticateSectorWithKeyA(
@@ -104,6 +109,20 @@ public class AdminActivity extends AppCompatActivity {
 				byte[] data = mifare.readBlock(7);
 
 				Log.d("NFC", "Block data: " + bytesToHex(data));
+
+				byte[] writeData2 = new byte[]{
+						(byte) 0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, // key A
+						(byte) 0x78, (byte)0x70, (byte)0xF8, (byte)0x69, // access bits
+						(byte) 0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, // key B
+				};
+
+				// For modify access bits
+				byte[] writeData = new byte[]{
+						(byte) 0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF, (byte)0xFF,
+						(byte) 0xF7, (byte)0x87, (byte)0x80, (byte)0x69,
+						(byte) 0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1, (byte)0xA1,
+				};
+				//mifare.writeBlock(7, writeData2);
 			} else {
 				Log.e("NFC", "Authentication failed");
 			}
