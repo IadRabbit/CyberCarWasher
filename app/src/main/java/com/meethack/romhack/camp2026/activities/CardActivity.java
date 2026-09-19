@@ -77,22 +77,19 @@ public class CardActivity extends NfcActivity {
                 customer = nfcWrapper.readData();
             } catch (IOException e) {
                 Log.e(TAG, String.valueOf(e));
-                runOnUiThread(() -> {
-                    stopNfcAnimation();
+                onNfcResult(() -> {
                     showError(getString(R.string.card_error_io));
                 });
                 return;
             } catch (FailedToFetchKeys e) {
                 Log.e(TAG, "Cannot fetch keys for card", e);
-                runOnUiThread(() -> {
-                    stopNfcAnimation();
+                onNfcResult(() -> {
                     showError(getString(R.string.card_error_fetch_keys));
                 });
                 return;
             }
 
-            runOnUiThread(() -> {
-                stopNfcAnimation();
+            onNfcResult(() -> {
                 showCustomer(customer, uid);
             });
         }).start();
