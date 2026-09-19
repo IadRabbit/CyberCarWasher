@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -14,34 +15,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CyberCarWasher">
         <activity
-            android:name=".ReadCard"
-            android:exported="true">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.nfc.action.TECH_DISCOVERED" />-->
-            <!--            </intent-filter>-->
-            <!--            <meta-data-->
-            <!--                android:name="android.nfc.action.TECH_DISCOVERED"-->
-            <!--                android:resource="@xml/supported_nfc_tags" />-->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <!-- Cyber Car Washer ROM Hack -->
-                <data
-                    android:host="admin.rom"
-                    android:scheme="ccwrc" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminActivity" android:exported="false" />
+        <activity
+            android:name=".activities.CardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ServicesActivity"
+            android:exported="false" />
+
+        <!-- Hidden diagnostics, ported from the admin app. Deliberately not linked from any
+             button/menu, and not exported so no other app can start them: reachable only via
+             adb, e.g. adb shell am start -n com.meethack.romhack.camp2026/.activities.DebugActivity -->
+        <activity
+            android:name=".activities.DebugActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.CardFormatActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

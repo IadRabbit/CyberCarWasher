@@ -5,19 +5,128 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="@drawable/bg_app_gradient"
+    tools:context=".activities.MainActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textTag"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="174dp"
-        android:layout_marginTop="355dp"
-        android:layout_marginEnd="179dp"
-        android:layout_marginBottom="357dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="36dp"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.15"
+        android:text="@string/home_tag"
+        android:textColor="@color/text_dim"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.meethack.romhack.camp2026.activities.CarWashView
+        android:id="@+id/carWashView"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textTag" />
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-black"
+        android:gravity="center"
+        android:letterSpacing="0.04"
+        android:lineSpacingExtra="2dp"
+        android:shadowColor="@color/neon_cyan"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="18"
+        android:text="@string/home_title"
+        android:textColor="@color/text_primary"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/carWashView" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="160dp"
+        android:layout_height="2dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/divider_glow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textTitle" />
+
+    <TextView
+        android:id="@+id/textSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.06"
+        android:text="@string/home_subtitle"
+        android:textColor="@color/text_dim"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonScan"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginBottom="28dp"
+        android:fontFamily="sans-serif-medium"
+        android:letterSpacing="0.06"
+        android:paddingStart="36dp"
+        android:paddingEnd="36dp"
+        android:text="@string/home_scan_button"
+        android:textAllCaps="true"
+        android:textColor="@color/neon_cyan"
+        app:cornerRadius="28dp"
+        app:layout_constraintBottom_toTopOf="@id/buttonServices"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/neon_magenta"
+        app:strokeColor="@color/neon_cyan"
+        app:strokeWidth="1.5dp" />
+
+    <TextView
+        android:id="@+id/buttonServices"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:background="@drawable/ripple_text_button"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.06"
+        android:padding="10dp"
+        android:text="@string/home_services_button"
+        android:textColor="@color/text_dim"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@id/textFooter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textFooter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:alpha="0.6"
+        android:fontFamily="monospace"
+        android:letterSpacing="0.2"
+        android:text="@string/home_footer"
+        android:textColor="@color/neon_magenta"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

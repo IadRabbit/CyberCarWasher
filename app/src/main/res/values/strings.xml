@@ -1,4 +1,64 @@
 <resources>
-    <string name="app_name">CyberCarWasher</string>
-    <string name="admin_read_info">Read Card Info</string>
+    <string name="app_name">CCW</string>
+
+    <!-- home -->
+    <string name="home_tag">// ROMHACK CAMP 2026</string>
+    <string name="home_title">CYBER\nCAR WASH</string>
+    <string name="home_subtitle">card management system</string>
+    <string name="home_scan_button">Scan card</string>
+    <string name="home_services_button">Available services ›</string>
+    <string name="home_footer">W MEETHACK</string>
+
+    <!-- card -->
+    <string name="card_header">User card</string>
+    <string name="card_status_connected">CONNECTED</string>
+    <string name="card_label_first_name">First name</string>
+    <string name="card_label_last_name">Last name</string>
+    <string name="card_label_date">Creation date</string>
+    <string name="card_label_balance">Balance</string>
+    <string name="card_value_first_name">John</string>
+    <string name="card_value_last_name">Doe</string>
+    <string name="card_value_date">12/03/2025</string>
+    <string name="card_value_balance">€ 27.50</string>
+    <string name="card_uid">CARD ID: 04:A3:F2:19:8B:2C</string>
+    <string name="card_back">‹ Back to home</string>
+    <string name="card_waiting_title">Bring the card closer</string>
+    <string name="card_waiting_subtitle">waiting for NFC read…</string>
+    <string name="card_status_reading">READING…</string>
+    <string name="card_status_error">ERROR</string>
+    <string name="card_error_not_mifare">Incompatible card (not MIFARE Classic)</string>
+    <string name="card_error_auth">Authentication failed on sector</string>
+    <string name="card_error_io">Error communicating with the card</string>
+    <string name="card_error_fetch_keys">Error fetching keys for the card</string>
+    <string name="card_uid_format">CARD ID: %1$s</string>
+
+    <!-- services (showcase, browse only) -->
+    <string name="services_header">Available services</string>
+    <string name="services_subtitle">Browse only — purchasing isn\'t available in this version</string>
+    <string name="services_back">‹ Back to home</string>
+
+    <!-- debug: hidden raw dump/write tool, ported from the admin app's CardReadActivity.
+         Reachable only via adb, never from the UI. -->
+    <string name="debug_header">Raw card dump</string>
+    <string name="debug_tab_info">Info</string>
+    <string name="debug_tab_data">Data</string>
+    <string name="debug_waiting_title">Bring the card closer</string>
+    <string name="debug_waiting_subtitle">waiting for NFC read…</string>
+    <string name="debug_label_type">Type</string>
+    <string name="debug_hint_view_data">Data</string>
+    <string name="debug_sector">SECTOR %02d</string>
+    <string name="debug_block">B%d</string>
+    <string name="debug_block_locked">— locked —</string>
+    <string name="debug_button_write_back">Write back</string>
+    <string name="debug_waiting_write_subtitle">waiting for NFC write…</string>
+    <string name="debug_status_writing">WRITING…</string>
+    <string name="debug_status_write_success">Bytes written successfully</string>
+    <string name="debug_error_invalid_hex">Invalid hex in one or more blocks, skipped</string>
+
+    <!-- format: hidden formatting tool, reachable only via adb, never from the UI -->
+    <string name="format_header">Format card</string>
+    <string name="format_waiting_title">Bring the card closer</string>
+    <string name="format_waiting_subtitle">waiting for NFC format…</string>
+    <string name="format_status_formatting">FORMATTING…</string>
+    <string name="format_status_success">Card formatted successfully</string>
 </resources>

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_app_gradient"
+    tools:context=".activities.DebugActivity">
+
+    <TextView
+        android:id="@+id/buttonBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/ripple_text_button"
+        android:padding="12dp"
+        android:text="‹"
+        android:textColor="@color/neon_green"
+        android:textSize="26sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:letterSpacing="0.06"
+        android:shadowColor="@color/neon_green"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="12"
+        android:text="@string/debug_header"
+        android:textAllCaps="true"
+        android:textColor="@color/text_primary"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/buttonBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/buttonBack" />
+
+    <LinearLayout
+        android:id="@+id/groupWaiting"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonBack">
+
+        <ImageView
+            android:id="@+id/imageNfcWaves"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:contentDescription="@null"
+            android:src="@drawable/nfc_waves" />
+
+        <TextView
+            android:id="@+id/textWaitingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.03"
+            android:text="@string/debug_waiting_title"
+            android:textColor="@color/text_primary"
+            android:textSize="19sp" />
+
+        <TextView
+            android:id="@+id/textWaitingStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:letterSpacing="0.04"
+            android:text="@string/debug_waiting_subtitle"
+            android:textColor="@color/text_dim"
+            android:textSize="13sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/screenBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/bg_lcd_screen"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonBack"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        tools:visibility="visible">
+
+        <!-- tab strip -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tabInfo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/lcd_ink"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:text="@string/debug_tab_info"
+                android:textAllCaps="true"
+                android:textColor="@color/lcd_bg"
+                android:textStyle="bold"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="2dp"
+                android:layout_height="match_parent"
+                android:background="@color/lcd_ink" />
+
+            <TextView
+                android:id="@+id/tabData"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/lcd_bg"
+                android:fontFamily="monospace"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:text="@string/debug_tab_data"
+                android:textAllCaps="true"
+                android:textColor="@color/lcd_ink"
+                android:textStyle="bold"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/lcd_ink" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <ScrollView
+                android:id="@+id/groupInfo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.1"
+                        android:text="UID"
+                        android:textAllCaps="true"
+                        android:textColor="@color/lcd_dim"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/textUid"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="14dp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/lcd_ink"
+                        android:textStyle="bold"
+                        android:textSize="19sp"
+                        tools:text="04 A1 B2 C3 D4" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="@color/lcd_ink" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.1"
+                        android:text="ATQA"
+                        android:textAllCaps="true"
+                        android:textColor="@color/lcd_dim"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/textAtqa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="14dp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/lcd_ink"
+                        android:textSize="16sp"
+                        tools:text="00 04" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="@color/lcd_ink" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.1"
+                        android:text="SAK"
+                        android:textAllCaps="true"
+                        android:textColor="@color/lcd_dim"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/textSak"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="14dp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/lcd_ink"
+                        android:textSize="16sp"
+                        tools:text="08" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="14dp"
+                        android:background="@color/lcd_ink" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="monospace"
+                        android:letterSpacing="0.1"
+                        android:text="@string/debug_label_type"
+                        android:textAllCaps="true"
+                        android:textColor="@color/lcd_dim"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/textType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="monospace"
+                        android:textColor="@color/lcd_ink"
+                        android:textSize="16sp"
+                        tools:text="MIFARE Classic 1K" />
+
+                </LinearLayout>
+            </ScrollView>
+
+            <ScrollView
+                android:id="@+id/groupData"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:id="@+id/dumpContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp" />
+            </ScrollView>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/lcd_ink" />
+
+        <TextView
+            android:id="@+id/buttonHintAction"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@drawable/ripple_lcd_button"
+            android:fontFamily="monospace"
+            android:gravity="center_vertical|end"
+            android:letterSpacing="0.06"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textAllCaps="true"
+            android:textColor="@color/lcd_ink"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            tools:text="▸ Write back" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hexKeypad"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/lcd_bg"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/lcd_ink" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="0" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="1" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="2" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="3" android:onClick="onHexKeyClick" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="4" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="5" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="6" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="7" android:onClick="onHexKeyClick" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="8" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="9" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="A" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="B" android:onClick="onHexKeyClick" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="C" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="D" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="E" android:onClick="onHexKeyClick" />
+            <com.google.android.material.button.MaterialButton style="@style/HexKeyButton" android:text="F" android:onClick="onHexKeyClick" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/HexKeyButton"
+                android:layout_weight="2"
+                android:onClick="onHexBackspaceClick"
+                android:text="⌫" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/HexKeyButton"
+                android:layout_weight="2"
+                android:onClick="onHexKeypadDoneClick"
+                android:text="DONE" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
