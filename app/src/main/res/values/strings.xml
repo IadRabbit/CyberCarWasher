@@ -53,7 +53,8 @@
     <string name="debug_waiting_write_subtitle">waiting for NFC write…</string>
     <string name="debug_status_writing">WRITING…</string>
     <string name="debug_status_write_success">Bytes written successfully</string>
-    <string name="debug_error_invalid_hex">Invalid hex in one or more blocks, skipped</string>
+    <string name="debug_status_no_changes">No modified blocks to write</string>
+    <string name="debug_error_invalid_hex">Invalid hex: no blocks were written</string>
 
     <!-- format: hidden formatting tool, reachable only via adb, never from the UI -->
     <string name="format_header">Format card</string>
