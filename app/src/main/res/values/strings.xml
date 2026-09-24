@@ -30,6 +30,7 @@
     <string name="card_error_auth">Authentication failed on sector</string>
     <string name="card_error_io">Error communicating with the card</string>
     <string name="card_error_fetch_keys">Error fetching keys for the card</string>
+    <string name="card_error_moved">Card was moved, type it again</string>
     <string name="card_uid_format">CARD ID: %1$s</string>
 
     <!-- services (showcase, browse only) -->

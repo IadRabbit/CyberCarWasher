@@ -71,14 +71,20 @@ public class CardActivity extends NfcActivity {
 
         startNfcAnimation();
         new Thread(() -> {
-            NfcWrapper nfcWrapper = new NfcWrapper(mifare, this);
             Customer customer;
             try {
+                NfcWrapper nfcWrapper = new NfcWrapper(mifare, this);
                 customer = nfcWrapper.readData();
             } catch (IOException e) {
                 Log.e(TAG, String.valueOf(e));
                 onNfcResult(() -> {
                     showError(getString(R.string.card_error_io));
+                });
+                return;
+            } catch (SecurityException e) {
+                Log.e(TAG, "Tag out of date", e);
+                onNfcResult(() -> {
+                    showError(getString(R.string.card_error_moved));
                 });
                 return;
             } catch (FailedToFetchKeys e) {

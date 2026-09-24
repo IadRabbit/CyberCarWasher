@@ -125,14 +125,21 @@ public class DebugActivity extends NfcActivity {
 
         startNfcAnimation();
         new Thread(() -> {
-            NfcWrapper nfcWrapper = new NfcWrapper(mifare, this);
             List<NfcWrapper.SectorDump> dump;
             try {
+                NfcWrapper nfcWrapper = new NfcWrapper(mifare, this);
                 dump = nfcWrapper.dumpSectors();
             } catch (IOException e) {
                 onNfcResult(() -> {
                     addLabelRow(getString(R.string.card_error_io), R.color.lcd_ink, false);
                     Log.e(TAG, String.valueOf(e));
+                    showData();
+                });
+                return;
+            } catch (SecurityException e) {
+                Log.e(TAG, "Tag out of date", e);
+                onNfcResult(() -> {
+                    addLabelRow(getString(R.string.card_error_moved), R.color.lcd_ink, false);
                     showData();
                 });
                 return;
@@ -212,14 +219,23 @@ public class DebugActivity extends NfcActivity {
         boolean finalHasInvalidHex = hasInvalidHex;
         startNfcAnimation();
         new Thread(() -> {
-            NfcWrapper nfcWrapper = new NfcWrapper(mifare, this);
             try {
+                NfcWrapper nfcWrapper = new NfcWrapper(mifare, this);
                 nfcWrapper.writeRawBlocks(edits);
             } catch (IOException e) {
                 Log.e(TAG, String.valueOf(e));
 
                 onNfcResult(() -> {
                     textWaitingStatus.setText(getString(R.string.card_error_io));
+                    textWaitingStatus.setTextColor(getColor(R.color.neon_red));
+                    mode = Mode.READ;
+                });
+                return;
+            } catch (SecurityException e) {
+                Log.e(TAG, "Tag out of date", e);
+
+                onNfcResult(() -> {
+                    textWaitingStatus.setText(getString(R.string.card_error_moved));
                     textWaitingStatus.setTextColor(getColor(R.color.neon_red));
                     mode = Mode.READ;
                 });
