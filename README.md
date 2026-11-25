@@ -4,7 +4,7 @@ Android app for the car wash **customer**: it reads the MIFARE Classic 1K loyalt
 
 > **CTF project — RomHack Camp 2026**
 >
-> This repository is part of **Cyber Car Washer**, a CTF challenge brought to **RomHack Camp 2026**. The challenge simulates the loyalty card system of a "cyber" car wash and is entirely based on **MIFARE Classic 1K**: the balance, the customer's personal data and the creation date live on the card, protected by per-sector keys derived on the backend.
+> This repository is part of **Cyber Car Washer**, a CTF challenge brought to **RomHack Camp 2026** on behalf of the **MeetHack** team. The challenge simulates the loyalty card system of a "cyber" car wash and is entirely based on **MIFARE Classic 1K**: the balance, the customer's personal data and the creation date live on the card, protected by per-sector keys derived on the backend.
 >
 > The project is made of three repositories:
 >
