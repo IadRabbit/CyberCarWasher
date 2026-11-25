@@ -1,111 +1,111 @@
 # CyberCarWasher
 
-App Android del **cliente** dell'autolavaggio: legge la fidelity card MIFARE Classic 1K e mostra i dati del titolare, il saldo residuo e il catalogo dei servizi.
+Android app for the car wash **customer**: it reads the MIFARE Classic 1K loyalty card and shows the holder's details, the remaining balance and the service catalog.
 
-> **Progetto CTF — RomHack Camp 2026**
+> **CTF project — RomHack Camp 2026**
 >
-> Questa repository fa parte della challenge **Cyber Car Washer**, una CTF portata al **RomHack Camp 2026**. La challenge simula il sistema di fidelity card di un autolavaggio "cyber" ed è interamente basata su **MIFARE Classic 1K**: il saldo, l'anagrafica del cliente e la data di creazione vivono sulla card, protetti da chiavi diverse per ogni settore derivate lato backend.
+> This repository is part of **Cyber Car Washer**, a CTF challenge brought to **RomHack Camp 2026**. The challenge simulates the loyalty card system of a "cyber" car wash and is entirely based on **MIFARE Classic 1K**: the balance, the customer's personal data and the creation date live on the card, protected by per-sector keys derived on the backend.
 >
-> Il progetto è composto da tre repository:
+> The project is made of three repositories:
 >
-> | Repository | Ruolo |
+> | Repository | Role |
 > |---|---|
-> | [`cyber_car_washer_be`](https://github.com/IadRabbit/cyber_car_washer_be) | Backend serverless (AWS) che deriva le chiavi dei settori a partire dal blocco 0 della card |
-> | [`CyberCarWasherAdmin`](https://github.com/IadRabbit/CyberCarWasherAdmin) | App Android dell'operatore: emissione card, ricarica, POS, formattazione |
-> | [`CyberCarWasher`](https://github.com/IadRabbit/CyberCarWasher) | App Android del cliente: consultazione della card e catalogo servizi |
+> | [`cyber_car_washer_be`](https://github.com/IadRabbit/cyber_car_washer_be) | Serverless backend (AWS) that derives the sector keys from the card's block 0 |
+> | [`CyberCarWasherAdmin`](https://github.com/IadRabbit/CyberCarWasherAdmin) | Operator Android app: card issuing, top-up, POS, formatting |
+> | [`CyberCarWasher`](https://github.com/IadRabbit/CyberCarWasher) | Customer Android app: card details and service catalog |
 
-## Infrastruttura
+## Infrastructure
 
-Il componente evidenziato con ★ è quello contenuto in questa repository.
+The component marked with ★ is the one contained in this repository.
 
 ```
-┌─ AWS — VPC, 2 subnet pubbliche (Terraform) ─────────────────────────────────────┐
+┌─ AWS — VPC, 2 public subnets (Terraform) ───────────────────────────────────────┐
 │  ┌──────────────────────────────────┐     ┌──────────────────────────────────┐  │
 │  │ Application Load Balancer        │     │ AWS Lambda (Python 3.13)         │  │
 │  │ HTTPS :443, cert self-signed     │ ──▶ │ cyber_car_washer_be              │  │
-│  │ X-Api-Key valida → forward       │     │ UID → 16 × (Key A, Key B)        │  │
-│  │ altrimenti → 404                 │     │ PRNG deterministico              │  │
+│  │ valid X-Api-Key → forward        │     │ UID → 16 × (Key A, Key B)        │  │
+│  │ otherwise → 404                  │     │ deterministic PRNG               │  │
 │  └──────────────────────────────────┘     └──────────────────────────────────┘  │
 └─────────────────────────────────────────────────────────────────────────────────┘
                      ▲
-                     │  POST {"uid": <blocco 0 hex>}  →  {"keys": [...]}
+                     │  POST {"uid": <block 0 hex>}  →  {"keys": [...]}
                      │  header X-Api-Key + certificate pinning
                 ┌────┴──────────────────────────────────┐
 ┌───────────────┴──────────────┐        ┌───────────────┴──────────────┐
 │ CyberCarWasherAdmin          │        │ ★ CyberCarWasher             │
-│ app Android operatore        │        │ app Android cliente          │
-│ emissione, ricarica, POS,    │        │ dati card, saldo,            │
-│ formattazione, raw edit      │        │ catalogo servizi             │
+│ operator Android app         │        │ customer Android app         │
+│ issuing, top-up, POS,        │        │ card data, balance,          │
+│ formatting, raw edit         │        │ service catalog              │
 └───────────────┬──────────────┘        └───────────────┬──────────────┘
                 │ NFC                                   │ NFC
                 └───────────────────┬───────────────────┘
                                     ▼
-                  ┌──────────────────────────────────┐
-                  │ MIFARE Classic 1K                │
-                  │                                  │
-                  │ sett. 0    blocco 0 (UID)        │
-                  │ sett. 1-11 dati statici          │
-                  │ sett. 12   saldo (value block)   │
-                  │ sett. 13   data creazione        │
-                  │ sett. 14   cognome               │
-                  │ sett. 15   nome                  │
-                  │ chiavi A/B diverse per settore   │
-                  └──────────────────────────────────┘
+                 ┌────────────────────────────────────┐
+                 │ MIFARE Classic 1K                  │
+                 │                                    │
+                 │ sector 0     block 0 (UID)         │
+                 │ sectors 1-11 static data           │
+                 │ sector 12    balance (value block) │
+                 │ sector 13    creation date         │
+                 │ sector 14    surname               │
+                 │ sector 15    name                  │
+                 │ per-sector A/B keys                │
+                 └────────────────────────────────────┘
 ```
 
-## Funzionalità
+## Features
 
-| Schermata | Descrizione |
+| Screen | Description |
 |---|---|
-| **La mia card** (`CardActivity`) | Al tap della card recupera le chiavi dal backend e legge nome, cognome, data di creazione e saldo |
-| **Servizi** (`ServicesActivity`) | Catalogo dei lavaggi con i relativi prezzi |
+| **My card** (`CardActivity`) | On card tap, fetches the keys from the backend and reads name, surname, creation date and balance |
+| **Services** (`ServicesActivity`) | Car wash catalog with prices |
 
-Le operazioni che modificano il saldo (ricarica e addebito) sono disponibili solo nell'app operatore, [`CyberCarWasherAdmin`](https://github.com/IadRabbit/CyberCarWasherAdmin).
+Operations that change the balance (top-up and charge) are only available in the operator app, [`CyberCarWasherAdmin`](https://github.com/IadRabbit/CyberCarWasherAdmin).
 
-## Layout della card (MIFARE Classic 1K)
+## Card layout (MIFARE Classic 1K)
 
-| Settore | Contenuto | Formato |
+| Sector | Content | Format |
 |---|---|---|
-| 0 | Blocco 0 del produttore (UID), usato per derivare le chiavi | sola lettura |
-| 1–11 | Dati statici scritti in fase di emissione | testo ASCII, 48 byte per settore |
-| 12 | Saldo | value block (int32 little endian, con copia invertita e byte di indirizzo) |
-| 13 | Data di creazione | 3 value block: anno, mese, giorno |
-| 14 | Cognome | testo UTF-8, max 48 byte |
-| 15 | Nome | testo UTF-8, max 48 byte |
+| 0 | Manufacturer block 0 (UID), used to derive the keys | read-only |
+| 1–11 | Static data written at issuing time | ASCII text, 48 bytes per sector |
+| 12 | Balance | value block (int32 little endian, with inverted copy and address bytes) |
+| 13 | Creation date | 3 value blocks: year, month, day |
+| 14 | Surname | UTF-8 text, max 48 bytes |
+| 15 | Name | UTF-8 text, max 48 bytes |
 
-Le chiavi A/B dei settori non sono salvate nell'app: a ogni tap l'app legge il blocco 0, lo invia al backend e riceve le 16 coppie di chiavi con cui autenticarsi.
+Sector A/B keys are not stored in the app: on every tap the app reads block 0, sends it to the backend and receives the 16 key pairs used to authenticate.
 
-## Struttura del progetto
+## Project structure
 
 ```
 app/src/main/java/com/meethack/romhack/camp2026/
-├── activities/      # schermate (UI) + NfcActivity, base comune per il dispatch NFC
+├── activities/      # screens (UI) + NfcActivity, shared base for NFC dispatch
 ├── wrappers/
-│   ├── NfcWrapper.java      # logica MIFARE: auth e lettura dei settori
-│   ├── RequestWrapper.java  # chiamata al backend + certificate pinning
+│   ├── NfcWrapper.java      # MIFARE logic: auth and sector reads
+│   ├── RequestWrapper.java  # backend call + certificate pinning
 │   └── Utils.java
-├── assets/          # Customer, catalogo Services, Money
+├── assets/          # Customer, Services catalog, Money
 └── exceptions/
 ```
 
 ## Build
 
-Requisiti: Android Studio, JDK 17+, dispositivo Android 11+ (minSdk 30) con NFC compatibile MIFARE Classic (chip NXP).
+Requirements: Android Studio, JDK 17+, an Android 11+ device (minSdk 30) with MIFARE Classic compatible NFC (NXP chip).
 
 ```bash
 ./gradlew assembleDebug
 ```
 
-La configurazione del backend si trova in `app/src/main/res/values/strings.xml` (`keys_endpoint`, `keys_header_name`, `keys_header_value`); il certificato pinnato dell'ALB è in `app/src/main/res/raw/cyber_car_washer_cert.pem`.
+Backend configuration lives in `app/src/main/res/values/strings.xml` (`keys_endpoint`, `keys_header_name`, `keys_header_value`); the pinned ALB certificate is in `app/src/main/res/raw/cyber_car_washer_cert.pem`.
 
-## Nota sullo sviluppo
+## Development note
 
-La **parte visiva** (layout, animazioni, stile delle schermate) è stata *vibecodata* con l'aiuto di strumenti di AI.
+The **visual part** (layouts, animations, screen styling) was *vibe-coded* with the help of AI tools.
 
-**Non** lo sono stati invece:
+The following parts were **not**:
 
-- la **progettazione** della challenge e del layout dei dati sulla card;
-- la **logica core** (gestione dei settori MIFARE, autenticazione, value block, operazioni di incremento/decremento, derivazione delle chiavi);
-- la **validazione** dell'input e dei dati letti dalla card;
-- il **controllo di integrità** (verifica del formato dei value block e degli access bits prima di ogni operazione sul saldo);
-- l'**infrastruttura** (AWS, Terraform, ALB, Lambda, certificate pinning).
+- the **design** of the challenge and of the data layout on the card;
+- the **core logic** (MIFARE sector handling, authentication, value blocks, increment/decrement operations, key derivation);
+- **validation** of user input and of data read from the card;
+- the **integrity checks** (value block format and access bits verification before every balance operation);
+- the **infrastructure** (AWS, Terraform, ALB, Lambda, certificate pinning).
